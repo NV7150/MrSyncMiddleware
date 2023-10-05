@@ -16,7 +16,7 @@ async def solve_mr(websocket, path):
             data = json.loads(message)
             router.handle(data["topic"], data["content"])
     finally:
-        client_man.unregister_client(websocket)
+        client_man.unregister_client_mr(websocket)
 
 
 async def solve_dt(websocket, path):
@@ -26,7 +26,7 @@ async def solve_dt(websocket, path):
             data = json.loads(message)
             router.handle(data["topic"], data["content"])
     finally:
-        client_man.unregister_client(websocket)
+        client_man.unregister_client_dt(websocket)
 
 
 HOST = os.environ.get("HOST", "localhost")
