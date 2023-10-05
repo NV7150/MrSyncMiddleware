@@ -2,7 +2,7 @@ import json
 import os
 import asyncio
 import websockets
-from Auguma import TopicHanlder, TopicRouter, ClientManager, ClientTag
+from Auguma import TopicHanlder, TopicRouter, ClientManager
 
 client_man = ClientManager()
 router = TopicRouter(client_man)
