@@ -1,28 +1,34 @@
 from enum import Enum
 import asyncio
-
-
-class ClientTag(Enum):
-    MR = 0
-    DT = 1
+import uuid
 
 
 class ClientManager:
     def __init__(self):
-        self.mr_clients = []
-        self.dt_clients = []
+        self.mr_clients = {}
+        self.dt_clients = {}
 
-    def register_client(self, tag: ClientTag, client):
-        if tag == ClientTag.MR:
-            self.mr_clients.append(client)
-        elif tag == ClientTag.DT:
-            self.dt_clients.append(client)
+    @staticmethod
+    def register_client(client_dict, client):
+        idx = str(uuid.uuid4())
+        client_dict.setdefault(idx, client)
+        return idx
 
-    def unregister_client_mr(self, client):
-        self.mr_clients.remove(client)
+    @staticmethod
+    def unregister_client(client_dict, idx):
+        del client_dict[idx]
 
-    def unregister_client_dt(self, client):
-        self.dt_clients.remove(client)
+    def register_client_mr(self, client):
+        return self.register_client(self.mr_clients, client)
+
+    def unregister_client_mr(self, idx):
+        self.unregister_client(self.mr_clients, idx)
+
+    def register_client_dt(self, client):
+        return self.register_client(self.dt_clients, client)
+
+    def unregister_client_dt(self, idx):
+        self.unregister_client(self.dt_clients, idx)
 
     async def send_dt(self, payload):
         await asyncio.gather(*(dt.send(payload) for dt in self.dt_clients))

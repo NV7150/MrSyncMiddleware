@@ -9,25 +9,22 @@ router = TopicRouter(client_man)
 TopicHanlder.register_handler(router)
 
 
-async def solve_mr(websocket, path):
-    client_man.register_client(ClientTag.MR, websocket)
+async def solve(websocket, path, register, unregister):
+    idx = register(websocket)
     try:
         async for message in websocket:
             data = json.loads(message)
-            router.handle(data["topic"], data["content"])
+            await router.handle(data["topic"], idx, data["content"])
     finally:
-        client_man.unregister_client_mr(websocket)
+        unregister(idx)
+
+
+async def solve_mr(websocket, path):
+    await solve(websocket, path, client_man.register_client_mr, client_man.unregister_client_mr)
 
 
 async def solve_dt(websocket, path):
-    client_man.register_client(ClientTag.DT, websocket)
-    try:
-        async for message in websocket:
-            data = json.loads(message)
-            router.handle(data["topic"], data["content"])
-    finally:
-        client_man.unregister_client_dt(websocket)
-
+    await solve(websocket, path, client_man.register_client_dt, client_man.unregister_client_dt)
 
 HOST = os.environ.get("HOST", "localhost")
 PORT_MR = int(os.environ.get("MR_PORT", 8785))
