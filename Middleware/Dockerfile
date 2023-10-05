@@ -1,21 +1,14 @@
-# ベースイメージとしてUbuntu 18.04を使用
-FROM ubuntu:18.04
-
-# 必要なパッケージをインストール
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-venv
+# ベースイメージとしてPython 3.9 Alpineを使用
+FROM python:3.9-alpine
 
 # 作業ディレクトリを設定
 WORKDIR /app
 
-# requirements.txtだけをコピー
+# 依存関係のファイルをコピー
 COPY requirements.txt .
 
-# 仮想環境を作成し、依存関係をインストール
-RUN python3 -m venv venv
-RUN /bin/bash -c "source venv/bin/activate && pip install -r requirements.txt"
+# 依存関係をインストール
+RUN pip install --no-cache-dir -r requirements.txt
 
-# サーバを起動するコマンドを指定
-CMD ["/app/venv/bin/python3", "main.py"]
+# main.pyを起動ポイントとして設定
+CMD ["python", "main.py"]

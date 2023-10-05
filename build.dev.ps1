@@ -5,6 +5,6 @@
 pip freeze | Out-File -Encoding utf8 .\Middleware\requirements.txt
 
 # Dockerイメージをビルド
-dokcer-compose build -f docker-compose-dev
+docker-compose -f docker-compose-dev.yaml build
 
 Write-Output "Docker build complete!"

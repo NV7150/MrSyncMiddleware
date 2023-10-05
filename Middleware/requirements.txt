@@ -1,0 +1,2 @@
+﻿asyncio==3.4.3
+websockets==11.0.3
