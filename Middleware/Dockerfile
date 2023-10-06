@@ -1,5 +1,5 @@
-# ベースイメージとしてPython 3.9 Alpineを使用
-FROM python:3.9-alpine
+# ベースイメージとしてPython 3.9
+FROM python:3.9
 
 # 作業ディレクトリを設定
 WORKDIR /app
