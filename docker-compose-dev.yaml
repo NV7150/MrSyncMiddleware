@@ -1,11 +1,16 @@
 version: '3.8'
 
 services:
-  middleware:
+  middle-server:
     build:
       context: ./Middleware
       dockerfile: Dockerfile
-    environment:
-      - .env.dev
     volumes:
       - ./Middleware:/app
+    ports:
+      - ${MR_PORT_DEV}:8500
+      - ${DT_PORT_DEV}:8501
+
+networks:
+  default:
+    attachable: true

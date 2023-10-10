@@ -1,8 +1,8 @@
 import json
-from ..Auguma import TopicHanlder, ClientManager
+from Augma import TopicHandler, ClientManager
 
 
-@TopicHanlder.topic_handler("event")
+@TopicHandler.topic_handler("event")
 async def handle_event(idx: str, content: dict, client_man: ClientManager):
     event_name = content["name"]
     await client_man.send_dt(json.dumps({
@@ -13,7 +13,7 @@ async def handle_event(idx: str, content: dict, client_man: ClientManager):
     }))
 
 
-@TopicHanlder.topic_handler("position")
+@TopicHandler.topic_handler("position")
 async def handle_position(idx: str, content: dict, client_man: ClientManager):
     await client_man.send_dt(json.dumps({
         "topic": "position",

@@ -31,8 +31,8 @@ class ClientManager:
         self.unregister_client(self.dt_clients, idx)
 
     async def send_dt(self, payload):
-        await asyncio.gather(*(dt.send(payload) for dt in self.dt_clients))
+        await asyncio.gather(*(dt.send(payload) for dt in self.dt_clients.values()))
 
     async def send_mr(self, payload):
-        await asyncio.gather(*(mr.send(payload) for mr in self.mr_clients))
+        await asyncio.gather(*(mr.send(payload) for mr in self.mr_clients.values()))
 

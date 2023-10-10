@@ -1,4 +1,4 @@
-from Middleware.Auguma import TopicRouter
+from . import TopicRouter
 
 handlers = {}
 

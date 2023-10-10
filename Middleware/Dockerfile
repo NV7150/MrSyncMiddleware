@@ -10,5 +10,8 @@ COPY requirements.txt .
 # 依存関係をインストール
 RUN pip install --no-cache-dir -r requirements.txt
 
+EXPOSE 8500
+EXPOSE 8501
+
 # main.pyを起動ポイントとして設定
-CMD ["python", "main.py"]
+CMD ["python", "-u", "main.py"]
