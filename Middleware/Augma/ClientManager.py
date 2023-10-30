@@ -5,34 +5,23 @@ import uuid
 
 class ClientManager:
     def __init__(self):
-        self.mr_clients = {}
-        self.dt_clients = {}
+        self.clients = {}
 
-    @staticmethod
-    def register_client(client_dict, client):
+    def register_client(self, client):
         idx = str(uuid.uuid4())
-        client_dict.setdefault(idx, client)
+        self.clients.setdefault(idx, client)
         return idx
 
-    @staticmethod
-    def unregister_client(client_dict, idx):
-        del client_dict[idx]
+    def unregister_client(self, idx):
+        del self.clients[idx]
 
-    def register_client_mr(self, client):
-        return self.register_client(self.mr_clients, client)
+    def send(self, idx, payload):
+        if idx not in self.clients.keys():
+            return False
+        self.clients[idx].send(payload)
+        return True
 
-    def unregister_client_mr(self, idx):
-        self.unregister_client(self.mr_clients, idx)
+    async def send_all(self, payload):
+        await asyncio.gather(*(cl.send(payload) for cl in self.clients.values()))
 
-    def register_client_dt(self, client):
-        return self.register_client(self.dt_clients, client)
-
-    def unregister_client_dt(self, idx):
-        self.unregister_client(self.dt_clients, idx)
-
-    async def send_dt(self, payload):
-        await asyncio.gather(*(dt.send(payload) for dt in self.dt_clients.values()))
-
-    async def send_mr(self, payload):
-        await asyncio.gather(*(mr.send(payload) for mr in self.mr_clients.values()))
 

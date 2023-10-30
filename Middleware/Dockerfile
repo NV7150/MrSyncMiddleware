@@ -11,7 +11,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8500
-EXPOSE 8501
 
 # main.pyを起動ポイントとして設定
 CMD ["python", "-u", "main.py"]

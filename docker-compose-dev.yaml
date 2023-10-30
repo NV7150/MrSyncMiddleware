@@ -8,8 +8,7 @@ services:
     volumes:
       - ./Middleware:/app
     ports:
-      - ${MR_PORT_DEV}:8500
-      - ${DT_PORT_DEV}:8501
+      - ${PORT_DEV}:8500
 
 networks:
   default:

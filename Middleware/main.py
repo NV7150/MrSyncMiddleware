@@ -3,54 +3,34 @@ import os
 import asyncio
 import websockets
 from Augma import TopicHandler, TopicRouter, ClientManager
-import event.EventHandler
+import handlers.EventHandler
 
 client_man = ClientManager()
 router = TopicRouter(client_man)
 TopicHandler.register_handler(router)
 
 
-async def solve(websocket, register, unregister):
+async def solve(websocket):
+    register = client_man.register_client
+    unregister = client_man.unregister_client
     idx = register(websocket)
     print("new websock connected")
     try:
         async for message in websocket:
             data = json.loads(message)
-            print(f"topics: {router.available_topics()} is available")
             print(f"payload delivered {data}")
             result = await router.handle(data["topic"], idx, data["content"])
             print(f"handle: {result}")
     finally:
         unregister(idx)
 
-
-async def solve_mr(websocket):
-    await solve(websocket, client_man.register_client_mr, client_man.unregister_client_mr)
-
-
-async def solve_dt(websocket):
-    await solve(websocket, client_man.register_client_dt, client_man.unregister_client_dt)
-
 HOST = "0.0.0.0"
-PORT_MR = 8500
-PORT_DT = 8501
-
-
-async def mr_start():
-    print("ready mr")
-    async with websockets.serve(solve_mr, HOST, PORT_MR):
-        await asyncio.Future()
-
-
-async def dt_start():
-    print("ready dt")
-    async with websockets.serve(solve_dt, HOST, PORT_DT):
-        await asyncio.Future()
+PORT = 8500
 
 
 async def main():
-    print(f"topics: {router.available_topics()} is available")
-    await asyncio.gather(dt_start(), mr_start())
+    async with websockets.serve(solve, HOST, PORT):
+        await asyncio.Future()
 
 print("started program")
 asyncio.run(main())

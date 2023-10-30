@@ -17,7 +17,22 @@ class TopicRouter:
         return list(self.handlers.keys())
 
     async def handle(self, topic: str, idx: str, content: dict):
+        if topic == "subscribe":
+            await self.handle_subscribe(idx, content)
+            return True
+
         if topic not in self.handlers.keys():
             return False
         await self.handlers[topic](idx, content, self.client_man)
         return True
+
+    async def handle_subscribe(self, idx: str, content: dict):
+        topic = content["topic"]
+
+        if topic not in self.handlers.keys():
+            return False
+        self.handlers[topic].subscribe(idx)
+        return True
+
+
+
