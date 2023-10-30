@@ -3,7 +3,7 @@ from . import TopicRouter
 handlers = {}
 
 
-def topic_handler(*s):
+def topic_handler(s):
     def _topic_handler(f):
         handlers.setdefault(s, f)
         return f

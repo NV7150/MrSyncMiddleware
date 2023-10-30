@@ -47,6 +47,7 @@ async def dt_start():
 
 
 async def main():
+    print(f"topics: {router.available_topics()} is available")
     await asyncio.gather(dt_start(), mr_start())
 
 print("started program")

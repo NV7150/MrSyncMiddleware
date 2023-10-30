@@ -13,5 +13,10 @@ class TopicRouter:
     def register_handler_all(self, handlers: dict):
         self.handlers.update(handlers)
 
+    def available_topics(self):
+        return list(self.handlers.keys())
+
     async def handle(self, topic: str, idx: str, content: dict):
+        if topic not in self.handlers.keys():
+            return
         await self.handlers[topic](idx, content, self.client_man)
