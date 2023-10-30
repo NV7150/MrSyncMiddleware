@@ -20,6 +20,7 @@ async def handle_position(idx: str, content: dict, client_man: ClientManager):
         "content": {
             "cid": idx,
             "position": content["position"],
-            "rotation": content["rotation"]
+            "rotation": content["rotation"],
+            "origin": content["origin"]
         }
     }))
