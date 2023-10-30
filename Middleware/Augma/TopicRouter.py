@@ -18,5 +18,6 @@ class TopicRouter:
 
     async def handle(self, topic: str, idx: str, content: dict):
         if topic not in self.handlers.keys():
-            return
+            return False
         await self.handlers[topic](idx, content, self.client_man)
+        return True

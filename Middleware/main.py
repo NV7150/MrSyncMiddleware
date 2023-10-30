@@ -16,8 +16,10 @@ async def solve(websocket, register, unregister):
     try:
         async for message in websocket:
             data = json.loads(message)
+            print(f"topics: {router.available_topics()} is available")
             print(f"payload delivered {data}")
-            await router.handle(data["topic"], idx, data["content"])
+            result = await router.handle(data["topic"], idx, data["content"])
+            print(f"handle: {result}")
     finally:
         unregister(idx)
 
