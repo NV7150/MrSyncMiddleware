@@ -3,11 +3,11 @@ import os
 import asyncio
 import websockets
 from Augma import TopicHandler, TopicRouter, ClientManager
-import handlers.EventHandler
 
 client_man = ClientManager()
 router = TopicRouter(client_man)
-TopicHandler.register_handler(router)
+router.register_topic("event")
+router.register_topic("position")
 
 
 async def solve(websocket):

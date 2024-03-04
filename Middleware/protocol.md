@@ -7,6 +7,13 @@ This protocol is Pub/Sub based real-time socket communication protocol
 that used to communicate real field (assumed MR/AR) and virtual
 space (assumed VR or Digital Twin concept).<br>
 
+## Specifics
+### Pub/Sub based data translation
+- Each data will be delivered only if you subscribe it
+- The subscribe data is pushed as soon as when it is published
+
+### Return subscribing
+
 
 ## Base Protocol
 
@@ -46,6 +53,7 @@ N/A // maybe implement result response someday
 ```json lines
 {
   "topic": str,
+  "idx":  "client id of publisher",
   "content": {
     // some contents that published by publisher
   }
@@ -82,6 +90,7 @@ Pull means directory pull the latest content.
 ```json lines
 {
   "topic": str,
+  "idx": "client id of publisher",
   "content": {
     // some contents that published by publisher
   }
